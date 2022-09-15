@@ -2,6 +2,10 @@
 
 This contract controls the interactions with blockchain users.
 
+`App ID: 872755286`
+
+`App Address: NVK5O2RPODVUYJXGA6ASAS3STP5U7SQDAN6AAJCZY56ID367MF7RUPFLXA`
+
 ### Scripts
 - genAddressFinder.sh - compiles and deploys the smart contracts to the network. 
 - address-finder.py - the main smart contract. 
