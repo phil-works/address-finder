@@ -1,6 +1,8 @@
-# Address Finder
+# Address Finder & Contest!
 
-This project allows users to interact with an Algorand smart contract to enable a search for a vanity address.  There is a fee to cover the transaction costs but nothing more is required.
+This project allows users to interact with an Algorand smart contract to enable a search for a vanity address. A vanity address contains a word or phrase. It's mostly a novelty feature.  When the service finds the address it will Rekey the address to the requestore giving them control. The requestor can approve transactions for that vanity address.  There is a fee to cover the transaction costs but nothing more is required.  
+
+In the contest users submit a guess for which round one of the winning words will be found by the system.  When a winning word is found, the address is rekeyed to the owner account and the winner is paid out based on the smart contract logic.  The payout is scaled for longer words earn more payout.  The remainder of the pot is used for the next contest.
 
 ## How-to-use
 
@@ -10,22 +12,7 @@ You will provide the text to be searched for.  Once an algorand address is foun
 #### Search Types
 
 - Rekey - simply rekeys the found address to the requestor. 
-- Save for Game (coming soon) - Will store the key to be used by the requestor in a blockchain game.
-- Secure Private Key Delivery - Still in planning stages.  The idea being that the private key would be transferred back to the requestor in a secure fashion.  Likely the key would be encrypted and transferred. 
 
 #### Text Positions
 
-Examples of text positions..  Let's say we're searching for WINNER. Example addresses that are not real.
-
 - Front -  **WINNER**VTQA3TAZSCKPK5FYGIFZJAI6LOYDTPKMYMVTS6TWQHHWWQ5MT4LI
-- Any - VTQA3TAZSCKPK5FYGIFZJAI6L**WINNER**OYDTPKMYMVTS6TWQHHWWQ5MT4LI
-- Back - VTQA3TAZSCKPK5FYGIFZJAI6LOYDTPKMYMVTS6TWQHHWWQ5MT4LI**WINNER**
-
-#### Matching Logic
-
-In development. 
-
-- Normal match - finds exactly what you're looking for
-- Mostly match - Finds pretty much what you're looking for.  Example: WINNR or WNNER
-- 1337 Match - W1NN3R
-
