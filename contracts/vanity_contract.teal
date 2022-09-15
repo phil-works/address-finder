@@ -1,0 +1,765 @@
+#pragma version 5
+txn ApplicationID
+int 0
+==
+bnz main_l48
+txn OnCompletion
+int OptIn
+==
+bnz main_l47
+txn OnCompletion
+int CloseOut
+==
+bnz main_l44
+txn OnCompletion
+int UpdateApplication
+==
+bnz main_l43
+txn OnCompletion
+int DeleteApplication
+==
+bnz main_l42
+txn OnCompletion
+int NoOp
+==
+bnz main_l7
+err
+main_l7:
+txna ApplicationArgs 0
+byte "FindMeThisName"
+==
+bnz main_l41
+txna ApplicationArgs 0
+byte "ClearNameSearch"
+==
+bnz main_l37
+txna ApplicationArgs 0
+byte "ContestGuess"
+==
+bnz main_l33
+txna ApplicationArgs 0
+byte "BreakOut"
+==
+bnz main_l32
+txna ApplicationArgs 0
+byte "DeclareContestWinner"
+==
+bnz main_l23
+txna ApplicationArgs 0
+byte "SeedContestPool"
+==
+bnz main_l22
+txna ApplicationArgs 0
+byte "UpdateGlobals"
+==
+bnz main_l21
+txna ApplicationArgs 0
+byte "UpdateContestGlobals"
+==
+bnz main_l20
+txna ApplicationArgs 0
+byte "ClaimExcessFunds"
+==
+bnz main_l19
+txna ApplicationArgs 0
+byte "xx"
+==
+bnz main_l18
+err
+main_l18:
+txn Sender
+global CreatorAddress
+==
+assert
+int 1
+return
+main_l19:
+txn Sender
+global CreatorAddress
+==
+assert
+global CurrentApplicationAddress
+global CreatorAddress
+global CurrentApplicationAddress
+balance
+global CurrentApplicationAddress
+min_balance
+-
+byte "ContestPrizePool"
+app_global_get
+-
+byte "LockedForFinder"
+app_global_get
+-
+int 1000
+-
+callsub payment_0
+int 1
+return
+main_l20:
+txn Sender
+global CreatorAddress
+==
+assert
+byte "ContestFee"
+txna ApplicationArgs 1
+btoi
+app_global_put
+byte "GuessResetTimeout"
+txna ApplicationArgs 2
+btoi
+app_global_put
+byte "WinWordList"
+txna ApplicationArgs 3
+app_global_put
+byte "ContestOpen"
+txna ApplicationArgs 4
+app_global_put
+int 1
+return
+main_l21:
+txn Sender
+global CreatorAddress
+==
+assert
+byte "SearchTypeOptions"
+txna ApplicationArgs 1
+app_global_put
+byte "NamePositionOptions"
+txna ApplicationArgs 2
+app_global_put
+byte "MinFee"
+txna ApplicationArgs 3
+btoi
+app_global_put
+int 1
+return
+main_l22:
+txn Sender
+global CreatorAddress
+==
+assert
+global GroupSize
+int 2
+==
+assert
+gtxn 0 TypeEnum
+int pay
+==
+assert
+gtxn 0 Receiver
+global CurrentApplicationAddress
+==
+assert
+byte "ContestPrizePool"
+gtxn 0 Amount
+byte "ContestPrizePool"
+app_global_get
++
+app_global_put
+int 1
+return
+main_l23:
+txn Sender
+global CreatorAddress
+==
+assert
+global GroupSize
+int 2
+>=
+assert
+gtxn 0 Sender
+gtxn 0 Receiver
+==
+assert
+gtxn 0 Amount
+int 0
+==
+assert
+gtxn 0 RekeyTo
+global CreatorAddress
+==
+assert
+byte ","
+txna ApplicationArgs 1
+concat
+byte ","
+concat
+byte "WinWordList"
+app_global_get
+callsub findstring_1
+assert
+txna ApplicationArgs 1
+txna ApplicationArgs 2
+callsub findstring_1
+assert
+int 0
+store 0
+txna ApplicationArgs 1
+len
+int 9
+==
+bnz main_l31
+txna ApplicationArgs 1
+len
+int 8
+==
+bnz main_l30
+txna ApplicationArgs 1
+len
+int 7
+==
+bnz main_l29
+txna ApplicationArgs 1
+len
+int 6
+==
+bnz main_l28
+main_l27:
+byte "ContestPrizePool"
+app_global_get
+load 0
+*
+store 1
+load 1
+int 100
+/
+store 1
+byte "ContestPrizePool"
+byte "ContestPrizePool"
+app_global_get
+load 1
+-
+int 1000
+-
+app_global_put
+global CurrentApplicationAddress
+txna Accounts 1
+load 1
+callsub payment_0
+byte "ContestNumber"
+global Round
+int 1
++
+app_global_put
+byte "LastWinningMatch"
+gtxn 0 Sender
+app_global_put
+int 1
+return
+main_l28:
+int 60
+store 0
+b main_l27
+main_l29:
+int 80
+store 0
+b main_l27
+main_l30:
+int 90
+store 0
+b main_l27
+main_l31:
+int 100
+store 0
+b main_l27
+main_l32:
+txn CloseRemainderTo
+global ZeroAddress
+==
+txn AssetCloseTo
+global ZeroAddress
+==
+&&
+txn RekeyTo
+global ZeroAddress
+==
+&&
+assert
+int 0
+byte "ContestNumber"
+app_local_get
+byte "ContestNumber"
+app_global_get
+==
+assert
+int 0
+byte "ContestGuess"
+app_local_get
+int 1
+-
+int 1
+byte "ContestGuess"
+app_local_get
+==
+assert
+int 0
+byte "ContestGuess"
+app_local_get
+int 1
++
+int 2
+byte "ContestGuess"
+app_local_get
+==
+assert
+global Round
+txna ApplicationArgs 1
+btoi
+<
+assert
+int 0
+byte "ContestGuess"
+txna ApplicationArgs 1
+btoi
+app_local_put
+int 0
+byte "GuessReset"
+global Round
+byte "GuessResetTimeout"
+app_global_get
++
+app_local_put
+int 1
+return
+main_l33:
+txn CloseRemainderTo
+global ZeroAddress
+==
+txn AssetCloseTo
+global ZeroAddress
+==
+&&
+txn RekeyTo
+global ZeroAddress
+==
+&&
+assert
+byte "ContestOpen"
+app_global_get
+byte "Y"
+==
+assert
+global Round
+txna ApplicationArgs 1
+btoi
+<
+assert
+int 0
+byte "ContestNumber"
+app_local_get
+byte "ContestNumber"
+app_global_get
+!=
+bnz main_l36
+global Round
+int 0
+byte "GuessReset"
+app_local_get
+>
+assert
+int 0
+byte "ContestGuess"
+txna ApplicationArgs 1
+btoi
+app_local_put
+int 0
+byte "GuessReset"
+global Round
+byte "GuessResetTimeout"
+app_global_get
++
+app_local_put
+main_l35:
+int 1
+return
+main_l36:
+global GroupSize
+int 2
+==
+assert
+gtxn 0 TypeEnum
+int pay
+==
+assert
+gtxn 0 Receiver
+global CurrentApplicationAddress
+==
+assert
+gtxn 0 Amount
+byte "ContestFee"
+app_global_get
+>=
+assert
+int 0
+byte "ContestNumber"
+byte "ContestNumber"
+app_global_get
+app_local_put
+int 0
+byte "ContestGuess"
+txna ApplicationArgs 1
+btoi
+app_local_put
+int 0
+byte "GuessReset"
+global Round
+byte "GuessResetTimeout"
+app_global_get
++
+app_local_put
+byte "ContestPrizePool"
+byte "ContestFee"
+app_global_get
+byte "ContestPrizePool"
+app_global_get
++
+app_global_put
+b main_l35
+main_l37:
+txn CloseRemainderTo
+global ZeroAddress
+==
+txn AssetCloseTo
+global ZeroAddress
+==
+&&
+txn RekeyTo
+global ZeroAddress
+==
+&&
+assert
+txn Sender
+global CreatorAddress
+==
+bnz main_l40
+int 0
+byte "SearchType"
+byte "Select Search Type..."
+app_local_put
+int 0
+byte "SearchStatus"
+byte "Cleared by User..."
+app_local_put
+int 0
+byte "DesiredName"
+byte ""
+app_local_put
+int 0
+byte "NamePosition"
+byte ""
+app_local_put
+byte "LockedForFinder"
+byte "LockedForFinder"
+app_global_get
+int 0
+byte "SentAmount"
+app_local_get
+-
+app_global_put
+int 0
+byte "SentAmount"
+int 0
+app_local_put
+main_l39:
+int 1
+return
+main_l40:
+int 1
+byte "SearchType"
+byte "Select Search Type..."
+app_local_put
+int 1
+byte "SearchStatus"
+txna ApplicationArgs 1
+app_local_put
+int 1
+byte "DesiredName"
+byte ""
+app_local_put
+int 1
+byte "NamePosition"
+byte ""
+app_local_put
+byte "LockedForFinder"
+byte "LockedForFinder"
+app_global_get
+int 1
+byte "SentAmount"
+app_local_get
+-
+app_global_put
+int 1
+byte "SentAmount"
+int 0
+app_local_put
+b main_l39
+main_l41:
+txn CloseRemainderTo
+global ZeroAddress
+==
+txn AssetCloseTo
+global ZeroAddress
+==
+&&
+txn RekeyTo
+global ZeroAddress
+==
+&&
+assert
+global GroupSize
+int 2
+>=
+assert
+gtxn 0 TypeEnum
+int pay
+==
+assert
+gtxn 0 Receiver
+global CurrentApplicationAddress
+==
+assert
+gtxn 0 Amount
+byte "MinFee"
+app_global_get
+>=
+assert
+byte ","
+txna ApplicationArgs 1
+concat
+byte ","
+concat
+byte "SearchTypeOptions"
+app_global_get
+callsub findstring_1
+assert
+byte ","
+txna ApplicationArgs 3
+concat
+byte ","
+concat
+byte "NamePositionOptions"
+app_global_get
+callsub findstring_1
+assert
+int 0
+byte "SentAmount"
+app_local_get
+int 0
+==
+assert
+int 0
+byte "SearchType"
+txna ApplicationArgs 1
+app_local_put
+int 0
+byte "DesiredName"
+txna ApplicationArgs 2
+app_local_put
+int 0
+byte "NamePosition"
+txna ApplicationArgs 3
+app_local_put
+int 0
+byte "SearchStatus"
+byte "Searching..."
+app_local_put
+int 0
+byte "SentAmount"
+gtxn 0 Amount
+app_local_put
+byte "LockedForFinder"
+gtxn 0 Amount
+byte "LockedForFinder"
+app_global_get
++
+app_global_put
+int 1
+return
+main_l42:
+txn Sender
+global CreatorAddress
+==
+assert
+int 1
+return
+main_l43:
+txn Sender
+global CreatorAddress
+==
+assert
+int 1
+return
+main_l44:
+txn CloseRemainderTo
+global ZeroAddress
+==
+txn AssetCloseTo
+global ZeroAddress
+==
+&&
+txn RekeyTo
+global ZeroAddress
+==
+&&
+assert
+int 0
+byte "SentAmount"
+app_local_get
+int 0
+!=
+bnz main_l46
+main_l45:
+int 1
+return
+main_l46:
+byte "LockedForFinder"
+byte "LockedForFinder"
+app_global_get
+int 0
+byte "SentAmount"
+app_local_get
+-
+app_global_put
+b main_l45
+main_l47:
+txn CloseRemainderTo
+global ZeroAddress
+==
+txn AssetCloseTo
+global ZeroAddress
+==
+&&
+txn RekeyTo
+global ZeroAddress
+==
+&&
+assert
+int 0
+byte "SearchType"
+byte "Select Search Type..."
+app_local_put
+int 0
+byte "SearchStatus"
+byte "Waiting for User..."
+app_local_put
+int 0
+byte "DesiredName"
+byte ""
+app_local_put
+int 0
+byte "NamePosition"
+byte ""
+app_local_put
+int 0
+byte "SentAmount"
+int 0
+app_local_put
+int 0
+byte "ContestNumber"
+int 0
+app_local_put
+int 0
+byte "ContestGuess"
+int 0
+app_local_put
+int 0
+byte "GuessReset"
+int 0
+app_local_put
+int 1
+return
+main_l48:
+byte "SearchTypeOptions"
+byte "init"
+app_global_put
+byte "NamePositionOptions"
+byte "init"
+app_global_put
+byte "MinFee"
+int 103000
+app_global_put
+byte "LockedForFinder"
+int 0
+app_global_put
+byte "ContestFee"
+int 1000000
+app_global_put
+byte "ContestPrizePool"
+int 0
+app_global_put
+byte "ContestNumber"
+global Round
+app_global_put
+byte "GuessResetTimeout"
+int 130000
+app_global_put
+byte "LastWinningMatch"
+byte "None"
+app_global_put
+byte "WinWordList"
+byte "None"
+app_global_put
+byte "ContestOpen"
+byte "N"
+app_global_put
+int 1
+return
+
+// payment
+payment_0:
+store 4
+store 3
+store 2
+itxn_begin
+int pay
+itxn_field TypeEnum
+load 2
+itxn_field Sender
+load 3
+itxn_field Receiver
+load 4
+itxn_field Amount
+int 1000
+itxn_field Fee
+itxn_submit
+retsub
+
+// find_string
+findstring_1:
+store 6
+store 5
+load 5
+len
+store 8
+load 6
+len
+load 5
+len
+-
+store 9
+int 0
+store 7
+findstring_1_l1:
+load 7
+load 9
+<=
+bz findstring_1_l5
+load 5
+load 6
+load 7
+load 8
+extract3
+==
+bnz findstring_1_l4
+load 7
+int 1
++
+store 7
+b findstring_1_l1
+findstring_1_l4:
+int 1
+retsub
+findstring_1_l5:
+int 0
+retsub

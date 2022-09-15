@@ -1,0 +1,30 @@
+#pragma version 5
+txn CloseRemainderTo
+global ZeroAddress
+==
+assert
+txn AssetCloseTo
+global ZeroAddress
+==
+assert
+txn RekeyTo
+global ZeroAddress
+==
+assert
+int 0
+byte "SentAmount"
+app_local_get
+int 0
+!=
+bz main_l2
+byte "LockedForFinder"
+byte "LockedForFinder"
+app_global_get
+int 0
+byte "SentAmount"
+app_local_get
+-
+app_global_put
+main_l2:
+int 1
+return

@@ -1,0 +1,1 @@
+ load data infile '/var/lib/mysql-files/address_out.txt' into table unmatched fields terminated by '|' enclosed by '' lines terminated by '\n';
