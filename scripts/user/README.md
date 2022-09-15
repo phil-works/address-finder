@@ -24,7 +24,7 @@ MinFee:103000
 NamePositionOptions:,Front,
 SearchTypeOptions:,Rekey,
 WinWordList:,PHLWRK,PHLWORK,PHILWRK,PHLWRKS,PHLWORKS,PHILWRKS,PHILWORK,PHILWORKS,
-
+```
 
 The local state after the backend service has rekey the address it found for you
 ```
