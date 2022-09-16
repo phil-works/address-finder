@@ -30,33 +30,33 @@ The contest is a split-the-pot game where players guess the closet round when on
 2. Make a guess greater than the current algorand round. 
 3. You can update your guess after 130,000 rounds, just slightly less than 1 week. 
 4. If you happened to get blocked in by two other players then you can get update your guess immediately by using the BreakOut feature. 
-    Example,   User1 guess round 1010, user2 guesses 1009 and user3 guesses 1011 then user1 can BreakOut.  Before `(1009-user2, 1010-user1, 1011-user3)` -> after BreakOut `(1009-user2, 1010-open, 1011-user3, 1309-user1)`
+    Example,   User1 guess round 1010, user2 guesses 1009 and user3 guesses 1011 then user1 can BreakOut.  Before (1009-user2, 1010-user1, 1011-user3) -> after BreakOut (1009-user2, 1010-open, 1011-user3, 1309-user1)
 5. The winner is the player with the closest guess to the winning round.  Over or under doesn't matter.. if players have the same amount of rounds then the player who submitted their guess first wins. 
 6. When a winner is declared the game resets with the left over funds becoming the new pot. Players must pay the entry fee again. 
 
 The smart contract verifies that an address that starts with a Winning Word has been rekeyed to the Owner address. This prevents funny business. 
 
 Winning Words:
- - PHLWRK
- - PHLWORK
- - PHILWRK
- - PHLWRKS
- - PHLWORKS
- - PHILWRKS
- - PHILWORK
- - PHILWORKS
-  
- The payout is based on the length of the Winning Word. The smart contract controls this payout. 
- | Length | Payout % |
- | ------ | ------- |
- | 6 | 60% |
- | 7 | 80% | 
- | 8 | 90% | 
- | 9 | 100% |
- 
- 
- #### Considerations: 
- - The speed in which the address finder service discovers a winning word is based on the hardware processing capabilities.  My dev box searched 40 mil records an hour while the production box can search 170 million and hour.
- - The contest is subject to outages. If the address finder service isn't running then winning words can't be found. 
- - I make no money from this contest. It costs money to run the hardware and network.
- - I do it because it's fun. 
+- PHLWRK
+- PHLWORK
+- PHILWRK
+- PHLWRKS
+- PHLWORKS
+- PHILWRKS
+- PHILWORK
+- PHILWORKS
+
+
+The payout is based on the length of the Winning Word. The smart contract controls this payout. 
+| Length | Payout % |
+| ------ | ------- |
+| 6 | 60% |
+| 7 | 80% | 
+| 8 | 90% | 
+| 9 | 100% |
+ 
+#### Considerations: 
+- The speed in which the address finder service discovers a winning word is based on the hardware processing capabilities.  My dev box searched 40 mil records an hour while the production box can search 170 million and hour.
+- The contest is subject to outages. If the address finder service isn't running then winning words can't be found. 
+- I make no money from this contest. It costs money to run the hardware and network.
+- I do it because it's fun. 
